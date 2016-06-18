@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int countNumbersWithUniqueDigits(int n) {
+        int sum = 10;
+        int temp = 9;
+        if(n ==0) return 1;
+        if(n == 1) return 10;
+        for(int i =2 ;i<=n;i++){
+            temp *= (9-i+2);
+            sum += temp;
+        }
+        return sum;
+    }
+};
