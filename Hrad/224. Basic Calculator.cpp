@@ -11,9 +11,7 @@ public:
     bool isNum(char c){
         return (c-'0')>=0 && (c-'0') <= 9;
     }
-    bool isAddOrSub(char c){
-        return c == '+'? true:c=='-';
-    }
+
     bool isAdd(char c){
         return c == '+';
     }
@@ -62,28 +60,34 @@ public:
                     }
                 }
                 ansStack.push_back(temp);
-            }else if(isAddOrSub(str[i]) ){
-                for(int j=opStack.size()-1;j>=0;j--){
-                    if(priority(opStack[j])<priority(str[i]))break;
-                    vector<char> temp;
-                    temp.push_back(opStack[j]);
-                    ansStack.push_back(temp);
-                    opStack.pop_back();
+            }else {
+                switch(str[i]){
+                    case '+':case '-':
+                        for(int j=opStack.size()-1;j>=0;j--){
+                            if(priority(opStack[j])<priority(str[i]))break;
+                                vector<char> temp;
+                                temp.push_back(opStack[j]);
+                                ansStack.push_back(temp);
+                                opStack.pop_back();
+                        }
+                        opStack.push_back(str[i]);
+                        break;
+                    case '(':
+                        opStack.push_back(str[i]);
+                        break;
+                    case ')':
+                        char c = opStack[opStack.size()-1];
+                        opStack.pop_back();
+                        while( c != '(' ){
+                            vector<char> temp;
+                            temp.push_back(c);
+                            ansStack.push_back(temp);
+                            c = opStack[opStack.size()-1];
+                            opStack.pop_back();
+                        }
+                        break;
+                        
                 }
-                opStack.push_back(str[i]);
-            }else if(isLeft(str[i])){
-                opStack.push_back(str[i]);
-            }else if(isRight(str[i])){
-                char c = opStack[opStack.size()-1];
-                opStack.pop_back();
-                while( c != '(' ){
-                    vector<char> temp;
-                    temp.push_back(c);
-                    ansStack.push_back(temp);
-                    c = opStack[opStack.size()-1];
-                    opStack.pop_back();
-                }
-                
             }
         }
         for(int i=0;i<opStack.size();i++){
@@ -93,6 +97,12 @@ public:
         }
     }
     int calculate(string s) {
+        int sizeC = s.size();
+        str.reserve(sizeC);
+        ansStack.reserve(sizeC);
+        opStack.reserve(sizeC);
+        ans.reserve(sizeC);
+        
         clearSpace(s);
         buildData();
         for(int i=0;i<ansStack.size();i++)
