@@ -6,32 +6,10 @@ public:
     vector<int> ans;
     
     int charToInt(char c){
-        switch(c){
-            case '0':
-                return 0;
-            case '1':
-                return 1;
-            case '2':
-                return 2;
-            case '3':
-                return 3;
-            case '4':
-                return 4;
-            case '5':
-                return 5;
-            case '6':
-                return 6;
-            case '7':
-                return 7;
-            case '8':
-                return 8;
-            case '9':
-                return 9;
-        }
-        return 10;
+        return c-'0';
     }
     bool isNum(char c){
-        return charToInt(c)<10;
+        return (c-'0')>=0 && (c-'0') <= 9;
     }
     bool isAddOrSub(char c){
         return c == '+'? true:c=='-';
@@ -84,17 +62,7 @@ public:
                     }
                 }
                 ansStack.push_back(temp);
-            }else if(isAdd(str[i])){
-                for(int j=opStack.size()-1;j>=0;j--){
-                    if(priority(opStack[j])<priority(str[i]))break;
-                    vector<char> temp;
-                    temp.push_back(opStack[j]);
-                    ansStack.push_back(temp);
-                    opStack.pop_back();
-                }
-            
-                opStack.push_back(str[i]);
-            }else if(isSub(str[i])){
+            }else if(isAddOrSub(str[i]) ){
                 for(int j=opStack.size()-1;j>=0;j--){
                     if(priority(opStack[j])<priority(str[i]))break;
                     vector<char> temp;
