@@ -19,16 +19,7 @@ public:
         return i == l;                          //走遍全部
     }
     bool isDig(char c){
-        if(c == '0' )return true;
-        else if(c == '1' )return true;
-        else if(c == '2' )return true;
-        else if(c == '3' )return true;
-        else if(c == '4' )return true;
-        else if(c == '5' )return true;
-        else if(c == '6' )return true;
-        else if(c == '7' )return true;
-        else if(c == '8' )return true;
-        else if(c == '9' )return true;
-        else return false;
+        return (c-'0')>=0 && ( '9' - c) >= 0;
     }    
+      
 };
