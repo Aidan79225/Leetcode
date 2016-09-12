@@ -20,10 +20,12 @@ public:
     }
     bool isPalindrome(string s) {
         stack = (char*)malloc(s.size() * sizeof(char));
-        for(int i =0;i<s.size();i++){
+        int size = s.size();
+        for(int i =0;i<size;i++){
             handleChar(s[i]);
         }
-        for(int i=0;i<index/2;i++){
+        size = index/2;
+        for(int i=0;i<size;i++){
             if(stack[i] != stack[index - i - 1])
                 return false;
         }
