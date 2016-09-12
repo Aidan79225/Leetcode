@@ -23,7 +23,6 @@ public:
         for(int i =0;i<s.size();i++){
             handleChar(s[i]);
         }
-        cout<<index<<endl;
         for(int i=0;i<index;i++){
             if(stack[i] != stack[index - i - 1])
                 return false;
