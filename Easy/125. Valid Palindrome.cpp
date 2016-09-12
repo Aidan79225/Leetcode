@@ -23,7 +23,7 @@ public:
         for(int i =0;i<s.size();i++){
             handleChar(s[i]);
         }
-        for(int i=0;i<index;i++){
+        for(int i=0;i<index/2;i++){
             if(stack[i] != stack[index - i - 1])
                 return false;
         }
