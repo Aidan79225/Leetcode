@@ -9,12 +9,42 @@
  */
 class Solution {
 public:
+    vector<TreeNode*> nodeStack;
+    int indexStack =0;
     vector<int> ans;
+    void push(TreeNode* cur){
+        if(nodeStack.size() == indexStack){
+            nodeStack.push_back(cur);
+        }else{
+            nodeStack[indexStack] = cur;
+        }
+        indexStack++;
+    }
+    TreeNode* pop(){
+        indexStack--;
+        if(indexStack < 0)return nullptr;
+        TreeNode* ans = nodeStack[indexStack];
+        nodeStack[indexStack] = nullptr;
+        return ans;
+    }
     vector<int> postorderTraversal(TreeNode* root) {
-        if(root != nullptr){
-            postorderTraversal(root -> left);
-            postorderTraversal(root -> right);
-            ans.push_back(root -> val);    
+        TreeNode* cur;
+        cur = root;
+        while(cur != nullptr){
+            if(cur -> left != nullptr){
+                TreeNode* left = cur -> left;
+                cur ->left = nullptr;
+                push(cur);
+                cur = left;
+            }else if(cur -> right != nullptr){
+                TreeNode* right = cur -> right;
+                cur ->right = nullptr;
+                push(cur);
+                cur = right;
+            }else{
+                ans.push_back(cur -> val);
+                cur = pop();
+            }
         }
         return ans;
     }
