@@ -7,6 +7,9 @@ public:
         combinationSum(ans,candidates,temp,target,0);
         return ans;
     }
+//     利用temp當一個stack 來做 DFS 
+//     每次從index開始走  避免重複 
+//     target==0代表已找到一組答案 target<0代表走過頭 下去沒路了
     void combinationSum(vector<vector<int>> &ans,vector<int>& candidates,vector<int>& temp, int target,int index) {
         if(target == 0){
             ans.push_back(temp);
