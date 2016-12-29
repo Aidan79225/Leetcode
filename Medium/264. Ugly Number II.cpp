@@ -1,3 +1,6 @@
+// 用index[]  來存 factor 目前成到哪個數最小 
+//然後逐次找出每個UglyNumber 
+//每次 找到時 同時看看其他數 去除掉一樣的數
 class Solution {
 public:
     int nthUglyNumber(int n) {
