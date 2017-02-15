@@ -2,8 +2,8 @@ class Solution {
 public:
     static const int dead = 0;
     static const int live = 1;
-    static const int liveToDead = 2;
-    static const int deadToLive = 3;
+    static const int liveToDead = 2; // 儲存狀態 原本 生 在下個世代 死
+    static const int deadToLive = 3; // 儲存狀態 原本 死 在下個世代 生
     const int dx[3] = {-1,0,1};
     const int dy[3] = {-1,0,1};
     void gameOfLife(vector<vector<int>>& board) {
@@ -11,35 +11,28 @@ public:
         if(size == 0 )return;
         int wsize = board[0].size();
         if(wsize == 0)return;
-        game(0,0,size,wsize,board);
-        for(int i =0 ; i<size ; i++ ){
-            for(int j=0 ; j<wsize ; j++ ){
-                if(board[i][j] >1){
-                    board[i][j] -= 2;
-                }   
-            }
-        }
-        
+        nextGame(0,0,size,wsize,board); //計算下個世代
+        modifyToFitForm(size, wsize, board); //把liveToDead,deadToLive改成dead,live
     }
-    void game(int i,int j,int size,int wsize,vector<vector<int>>& board){
+    void nextGame(int i,int j,int size,int wsize,vector<vector<int>>& board){
         if(j == wsize){
             return;
         }else if(i == size){
-            game(0,j+1,size,wsize,board);
+            nextGame(0,j+1,size,wsize,board);
             return;
         }else{
             switch(board[i][j]){
-                case 0:
+                case dead:
                     if(count(i,j,size,wsize,board) == 3)board[i][j] = deadToLive;
                     break;
-                case 1:
+                case live:
                     int ans = count(i,j,size,wsize,board);
                     if(ans != 2 && ans != 3){
                         board[i][j] = liveToDead;
                     }
                     break;
             }
-            game(i+1,j,size,wsize,board);
+            nextGame(i+1,j,size,wsize,board);
         }
     }
     int count(int i,int j,int size,int wsize,vector<vector<int>>& board){ //count周圍live數量
@@ -62,5 +55,14 @@ public:
         if(yy >= wsize)return false;
         if(xx == i && yy == j)return false;
         return true;
+    }
+    void modifyToFitForm(int size, int wsize,vector<vector<int>>& board){
+        for(int i =0 ; i<size ; i++ ){
+            for(int j=0 ; j<wsize ; j++ ){
+                if(board[i][j] >1){
+                    board[i][j] -= 2;
+                }   
+            }
+        }
     }
 };
