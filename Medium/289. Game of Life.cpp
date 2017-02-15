@@ -44,7 +44,7 @@ public:
             for(int y=0 ; y<3 ; y++){
                 int xx = i + dx[x];
                 int yy = j + dy[y];
-                if( checkForm(i,j,xx,yy,size,wsize) && (board[xx][yy] == 1 || board[xx][yy] == 2)){
+                if( checkForm(i,j,xx,yy,size,wsize) && (board[xx][yy] == live || board[xx][yy] == liveToDead)){
                     ans++;
                 }
             }
