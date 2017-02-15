@@ -23,10 +23,13 @@ public:
         }else{
             switch(board[i][j]){
                 case dead:
-                    if(count(i,j,size,wsize,board) == 3)board[i][j] = deadToLive;
+                    //Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+                    if(count(i,j,size,wsize,board) == 3)board[i][j] = deadToLive; 
                     break;
                 case live:
                     int ans = count(i,j,size,wsize,board);
+                    //Any live cell with two or three live neighbors lives on to the next generation.
+                    //Other numbers of neighbors will kill self
                     if(ans != 2 && ans != 3){
                         board[i][j] = liveToDead;
                     }
