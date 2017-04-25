@@ -37,7 +37,7 @@ public:
         }
         return findWays(i+1, size, nums, S-nums[i]) + findWays(i+1, size, nums, S+nums[i]);
     }
-    //把算過的東西記起來
+    //把算過的東西記起來 map<index,map<S,有幾種>>
     int findWays(int i, int size, vector<int>& nums, int S,map<int, map<int,int>>& mDp) {
         if(i == size){
             if(S ==0){
