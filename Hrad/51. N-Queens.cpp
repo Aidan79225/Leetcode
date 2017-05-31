@@ -27,10 +27,8 @@ public:
     }
     bool check(int* t,int size){
         for(int i = 0; i<size-1;i++){
-            for(int j = i+1 ;j<size;j++){
-                if(abs(t[i] -t[j]) == j-i){
-                    return false;
-                }
+            if(abs(t[i] -t[size-1]) == size-1-i){
+                return false;
             }
         }
         return true;
