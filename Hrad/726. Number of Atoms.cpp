@@ -4,10 +4,10 @@ public:
         public :
             unordered_map<string,int> mMap;
             int last;
+            string key = "";
+            int num = 0;
+            GroupOfAtoms* sub = nullptr;
             GroupOfAtoms(string s,int start){
-                string key = "";
-                int num = 0;
-                GroupOfAtoms* sub = nullptr;
                 while(s[start] != ')'){
                     if(isNum(s[start])){
                         num *= 10;
@@ -15,19 +15,8 @@ public:
                         start++;
                     }else{
                         if(s[start] == '(' || isUpper(s[start])){
-                            if(key.length() != 0){
-                                mMap[key] += max(num,1);
-                                key = "";
-                                num = 0;
-                            }
-                            if(sub != nullptr ){
-                                sub -> getMul(max(num,1));
-                                mergeGroup(sub);
-                                sub = nullptr;
-                                num = 0;
-                            }
+                            calculate();
                         }
-                        
                         if(s[start] == '('){
                             sub = new GroupOfAtoms(s,start + 1);
                             start = (sub -> last)+1;
@@ -37,17 +26,7 @@ public:
                         }
                     }
                 }
-                if(key.length() != 0){
-                    mMap[key] += max(num,1);
-                    key = "";
-                    num = 0;
-                }
-                if(sub != nullptr ){
-                    sub -> getMul(max(num,1));
-                    mergeGroup(sub);
-                    sub = nullptr;
-                    num = 0;
-                }
+                calculate();
                 last = start;
             }
             bool isNum(char c){
@@ -67,6 +46,19 @@ public:
             void mergeGroup(GroupOfAtoms* g){
                 for (auto& kv : g -> mMap) {
                     mMap[kv.first] += kv.second;
+                }
+            }
+            void calculate(){
+                if(key.length() != 0){
+                    mMap[key] += max(num,1);
+                    key = "";
+                    num = 0;
+                }
+                if(sub != nullptr ){
+                    sub -> getMul(max(num,1));
+                    mergeGroup(sub);
+                    sub = nullptr;
+                    num = 0;
                 }
             }
             static bool cmp(const pair<string, int>  &p1, const pair<string, int> &p2){
