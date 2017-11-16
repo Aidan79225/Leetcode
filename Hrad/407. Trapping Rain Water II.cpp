@@ -6,12 +6,6 @@ public:
             int x = 0;
             int y = 0;
     };
-    class mComparison{
-        public:
-            bool operator() (const Point& lhs, const Point&rhs) const{
-                return (lhs.h-rhs.h);
-            }
-    };
     
     struct cmp{
         bool operator() (const Point& lhs, const Point& rhs) {
