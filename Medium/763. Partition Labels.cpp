@@ -13,8 +13,9 @@ public:
         for(int i = 'a' ; i <= 'z' ; i++){
             insert(temp, find(S,i));
         }
-        reload(temp);
         sort(temp.begin(), temp.end(), [](Interval i,Interval j) { return (i.start<j.start); });
+        temp = reload(temp);
+        
         for(auto& it : temp){
             ans.push_back(it.end - it.start +1);
         }
@@ -27,39 +28,23 @@ public:
         temp.push_back(t);
     }
     
-    void reload(vector<Interval>& temp){
-        bool needReload = false;
-        for(int i = 0 ; i < temp.size()-1 ; i++){
-            for(int j = i+1 ; j < temp.size() ; j++){
-                if(needMerge(temp[i],temp[j])){
-                    temp[i].end = max(temp[i].end, temp[j].end);
-                    temp[i].start = min(temp[i].start, temp[j].start);
-                    temp.erase(temp.begin()+j);
-                    j--;
-                    needReload = true;
-                }
+    vector<Interval> reload(vector<Interval>& temp){
+        vector<Interval> ans;
+        Interval c = temp[0];
+        for(auto&i : temp){
+            if(i.start <= c.end){
+                c.end = max(i.end, c.end);
+            }
+            else{
+                ans.push_back(c);
+                c = i;
             }
         }
-        if(needReload){
-            reload(temp);
-        }
+        ans.push_back(c);
+        return ans;
     }
     
-    bool needMerge(Interval it , Interval t){
-        if(it.end <= t.end && it.end >= t.start){
-            return true;
-        }
-        if(it.start <= t.end && it.start >= t.start){
-            return true;
-        }
-        if(t.end <= it.end && t.end >= it.start){
-            return true;
-        }
-        if(t.start <=it.end && t.start >= it.start){
-            return true;
-        }
-        return false;
-    }
+   
     Interval find(string S, char t){
         int s,e;
         s = strchr(S,t);
