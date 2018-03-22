@@ -38,7 +38,7 @@ public:
         for(int i : moveStep[zero]){
             string nextString = getNextString(now,zero,i);
             if(history.find(nextString) == history.end()){
-                mQueue.push({getNextString(now,zero,i),step+1});
+                mQueue.push({nextString,step+1});
                 history.insert(nextString);
             }
         }
