@@ -29,4 +29,19 @@ public:
         }
         return find(nums,0,nums.size()-1);
     }
+    
+    
+    
+    /*
+        Status: Accepted
+        Runtime: 7 ms
+        Your runtime beats 94.49 % of cpp submissions.
+    */
+    int findMin1(vector<int>& nums) {
+        int mMin = INT_MAX;
+        for(auto& it : nums){
+            mMin = min(it, mMin);
+        }
+        return mMin;
+    }
 };
