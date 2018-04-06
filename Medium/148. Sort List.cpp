@@ -16,14 +16,13 @@ public:
         if(head == nullptr || head -> next == nullptr){
             return head;
         }
-        ListNode* mid = head;
         ListNode* temp = head ;
-        ListNode* fast = head -> next ;
+        ListNode* fast = head -> next ->next ;
         while(fast && fast -> next){
             temp = temp -> next;
             fast = fast -> next -> next;
         }
-        mid = temp -> next;
+        ListNode* mid = temp -> next;
         temp ->next = nullptr;
         return merge( mergeSort(head), mergeSort(mid));
     }
