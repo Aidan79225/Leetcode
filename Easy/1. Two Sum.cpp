@@ -1,9 +1,20 @@
 class Solution {
 public:
-    int abs(int a){
-        return a > 0 ? a:-a;
-    }
     vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int>mMap;
+        vector<int> ans(2,0);
+        for(int i = 0; i < nums.size(); i++){
+            int k = target - nums[i];
+            if(mMap.find(k) != mMap.end()){
+                ans[0] = mMap[k];
+                ans[1] = i;
+                return ans;
+            }
+            mMap[nums[i]] = i;
+        }
+        return ans;
+    }
+    vector<int> twoSum1(vector<int>& nums, int target) {
         vector<vector<int>> hash;
         const int max = 47,size = nums.size();
         hash.resize(max);
@@ -17,16 +28,12 @@ public:
             bool flag = false;
             for(int j = 0;j<hash[abs(temp) % max].size();j++){
                 if(temp == hash[abs(temp) % max][j]){
-                    flag = true;
-                    break;
-                }
-            }
-            if(flag){
-                for(int j = 0;j<size;j++){
-                    if(temp == nums[j] && j!=i){
-                        ans.push_back(i);    
-                        ans.push_back(j);
-                        return ans;
+                    for(int j = 0;j<size;j++){
+                        if(temp == nums[j] && j!=i){
+                            ans.push_back(i);    
+                            ans.push_back(j);
+                            return ans;
+                        }
                     }
                 }
             }
