@@ -6,8 +6,7 @@ class Solution {
         for (int i = 2; i <= books.length; i++) {
             int maxHeight = -1;
             int t = 0;
-            int j;
-            for (j = i-1; j >= 0; j--) {
+            for (int j = i-1; j >= 0; j--) {
                 t += books[j][0];
                 if (t <= shelf_width) {
                     maxHeight = Math.max(maxHeight, books[j][1]);
