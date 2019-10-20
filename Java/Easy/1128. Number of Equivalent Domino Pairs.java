@@ -3,11 +3,10 @@ class Solution {
         int[][] temp = new int[10][10];
         int ans = 0;
         for (int[] dominoe : dominoes) {
-            int i = Math.max(dominoe[0], dominoe[1]);
-            int j = Math.min(dominoe[0], dominoe[1]);
-            temp[i][j] += 1;
-            if (temp[i][j] > 1) {
-                ans += temp[i][j] - 1;
+            if (dominoe[0] > dominoe[1]) {
+                ans += temp[dominoe[0]][dominoe[1]]++;
+            } else {
+                ans += temp[dominoe[1]][dominoe[0]]++;
             }
         }
         return ans;
