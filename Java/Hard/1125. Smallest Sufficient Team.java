@@ -1,7 +1,7 @@
 class Solution {
     HashMap<Integer, Node> nodes;
     int[] max;
-    public int[] smallestSufficientTeam1(String[] req_skills, List<List<String>> people) {
+    public int[] smallestSufficientTeam(String[] req_skills, List<List<String>> people) {
         int[] lines = new int[people.size()];
         for (int i = 0; i < people.size(); i++) {
             int sk = 1;
@@ -20,38 +20,41 @@ class Solution {
             }
             lines[i] = sk;
         }
-        dfs(1<<req_skills.length, 1<<req_skills.length, lines, new HashSet<Integer>(), findDuplicated(lines));
+        dfs(1<<req_skills.length, 1<<req_skills.length, lines, new boolean[people.size()], 0, findDuplicated(lines));
         return max;
     }
     
-    void dfs(int state, int checkBit, int[] lines, HashSet<Integer> users, boolean[] cannotUse) {
-        if (max != null && users.size() >= max.length) {
+    void dfs(int state, int checkBit, int[] lines, boolean[] users, int usersSize, boolean[] cannotUse) {
+        if (max != null && usersSize >= max.length) {
             return;
         }
         
         if (checkBit == 0) {
-            int[] array = new int[users.size()];
+            int[] array = new int[usersSize];
             int k = 0;
-            for (int i: users)
-                array[k++] = i;
+            for (int i = 0; i < users.length && k < usersSize; i++) {
+                if (users[i]) {
+                    array[k++] = i;
+                }
+            }
             max = array;
             return; 
         }
         if ((state&checkBit) > 0) {
-            dfs(state, checkBit>>1, lines, users, cannotUse);
+            dfs(state, checkBit>>1, lines, users, usersSize, cannotUse);
         }
         for (int i =0; i<lines.length; ++i) {
             int line = lines[i];
             if (cannotUse[i]) {
                 continue;
             }
-            if (users.contains(i)) {
+            if (users[i]) {
                 continue;
             }
             if ((line&checkBit) > 0) {
-                users.add(i);
-                dfs(state|line, checkBit>>1, lines, users, cannotUse);
-                users.remove(i);
+                users[i] = true;
+                dfs(state|line, checkBit>>1, lines, users, usersSize+1, cannotUse);
+                users[i] = false;
             }
         }
     }
@@ -70,7 +73,7 @@ class Solution {
         return out;
     }
     
-    public int[] smallestSufficientTeam(String[] req_skills, List<List<String>> people) {
+    public int[] smallestSufficientTeam1(String[] req_skills, List<List<String>> people) {
         max = null;
         HashMap<String, Integer> indexMap = new HashMap<String, Integer>();
         for (int i = 0; i < req_skills.length; i++) {
